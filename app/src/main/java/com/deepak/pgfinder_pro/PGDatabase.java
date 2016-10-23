@@ -83,15 +83,22 @@ public class PGDatabase {
         return pgDetailsArrayList;
     }
 
-    public ArrayList<PGDetails> querySortedPGDetails(String fromdate){
-        String date = fromdate.trim();
-        int id = 1;
+    public ArrayList<PGDetails> querySortedPGDetails(String fromdate, int rent){
+        //String date = fromdate.trim();
+        //int id = 0;
+        Cursor cursor = null;
         ArrayList<PGDetails> pgDetailsArrayList = new ArrayList<PGDetails>();
-        Cursor cursor = sqLiteDatabase.query("pgdetails", null, "dateofposting = ?", new String[]{date}, null, null, null, null);
-        if(cursor.moveToNext() == true) {
+        //Cursor cursor = sqLiteDatabase.query("pgdetails", null, null, null, null, null, null, null);
+        /*if(cursor.moveToNext() == true) {
             id = cursor.getInt(0);
         }
-        cursor = sqLiteDatabase.query("pgdetails", null, "_id >= ?", new String[]{""+id}, null, null, null, null);
+        cursor = sqLiteDatabase.query("pgdetails", null, "_id >= ?", new String[]{""+id}, null, null, null, null);*/
+        if(rent == 1) {
+            cursor = sqLiteDatabase.query("pgdetails", null, null, null, null, null, "pgrent" + " ASC", null);
+        }
+        else if(rent == 2){
+            cursor = sqLiteDatabase.query("pgdetails", null, null, null, null, null, "pgrent" + " DESC", null);
+        }
         while(cursor.moveToNext() == true) {
             pgDetails = new PGDetails(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                     cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),

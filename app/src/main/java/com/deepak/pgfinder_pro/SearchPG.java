@@ -66,12 +66,13 @@ public class SearchPG extends Fragment {
         }
         else{
             String fromdate = bundle.getString("fromdate");
+            int rent = bundle.getInt("rent");
             myAdapter = new MyAdapter();
 
             pgDatabase = new PGDatabase(getActivity());
             pgDatabase.open();
 
-            pgDetailsArrayList = pgDatabase.querySortedPGDetails(fromdate);
+            pgDetailsArrayList = pgDatabase.querySortedPGDetails(fromdate, rent);
             //pgDetailsArrayList = pgDatabase.queryPGDetails();
             listView1.setAdapter(myAdapter);
         }
@@ -84,7 +85,7 @@ public class SearchPG extends Fragment {
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = manager.beginTransaction();
                 fragmentTransaction.replace(R.id.container1, sortBy);
-                fragmentTransaction.addToBackStack(null);
+                //fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
@@ -137,7 +138,7 @@ public class SearchPG extends Fragment {
             textView2.setText(pgDetails.getPgcity());
             textView3.setText(pgDetails.getPgname());
             textView4.setText(pgDetails.getContact());
-            //textView5.setText(pgDetails.getPgrent());
+            textView5.setText(pgDetails.getPgrent());
 
             //Toast.makeText(getActivity(), "Lat : "+pgDetails.getLatitude()+"\nLon :"+pgDetails.getLongitude(), Toast.LENGTH_SHORT).show();
 

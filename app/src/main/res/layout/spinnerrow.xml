@@ -6,7 +6,7 @@
     android:id="@+id/textView1"
     android:textColor="#00F"
     android:background="@drawable/spinnershape"
-    android:paddingLeft="5sp"
+    android:padding="5sp"
     android:layout_margin="4sp"/><!--
     android:layout_margin="5sp"/>-->
 

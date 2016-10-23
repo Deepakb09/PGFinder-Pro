@@ -3,40 +3,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#7fa87f"
-    tools:context="com.deepak.pgfinder_pro.SortBy">
+    android:background="#e4c2f6"
+    tools:context="com.deepak.pgfinder_pro.SortBy"
+    android:weightSum="1">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"
         android:text="SORT BY"
-        android:textSize="30sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         android:layout_gravity="center"
         android:textColor="#FFF"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView2"
-            android:text="Ad Freshness :  "
-            android:textSize="22sp"
-            android:background="#7fa87f"
-            android:textColor="#FFF"/>
+            android:text="Ad Freshness "
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:textColor="#bc2f21"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="30sp"
+            android:layout_height="match_parent" />
 
         <Spinner
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/spinner1"
-            android:focusable="false" />
+            android:layout_gravity="end" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:text="Sort By Rent"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#bc2f21"
+            android:layout_margin="5dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/radiogroup1">
+                <RadioButton android:id="@+id/lowToHigh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lower to higher"
+                    android:textSize="22sp"
+                    android:textColor="#0c1dab"/>
+                <RadioButton android:id="@+id/highToLow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Higher to lower"
+                    android:textSize="22sp"
+                    android:textColor="#0c1dab"/>
+            </RadioGroup>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"/>
 
     <!--<LinearLayout
         android:layout_width="match_parent"
@@ -59,12 +121,14 @@
             android:id="@+id/spinner2"></Spinner>
     </LinearLayout>-->
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/button1"
         android:text="@string/submit"
         android:textSize="25sp"
-        android:textColor="#FFF"
-        android:layout_gravity="center|bottom" />
+        android:textStyle="bold"
+        android:textColor="#040e65"
+        android:padding="5dp"
+        android:layout_margin="5dp" />
 
 </LinearLayout>

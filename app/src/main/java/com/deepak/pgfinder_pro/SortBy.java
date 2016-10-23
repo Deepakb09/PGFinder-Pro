@@ -1,7 +1,6 @@
 package com.deepak.pgfinder_pro;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,10 +31,15 @@ public class SortBy extends Fragment {
     TextView textView1,textView2,textView3;
     Spinner spinner1,spinner2;
     Button button;
+
+    RadioGroup radioGroup1;
+    RadioButton radioButton1, radioButton2;
+
     String[] noOfDays = {"By Days", "0", "1", "5", "10", "15", "20", "25", "30"};
     ArrayList<String> arrayList1,arrayList2;
     ArrayAdapter arrayAdapter1,arrayAdapter2;
     int day;
+    int rent;
     private int mSelectedIndex = -1;
 
     public SortBy() {
@@ -48,7 +54,12 @@ public class SortBy extends Fragment {
         View v = inflater.inflate(R.layout.fragment_sort_by, container, false);
         textView1 = (TextView) v.findViewById(R.id.textView1);
         textView2 = (TextView) v.findViewById(R.id.textView2);
-        //textView3 = (TextView) v.findViewById(R.id.textView3);
+        textView3 = (TextView) v.findViewById(R.id.textView3);
+
+        radioGroup1 = (RadioGroup) v.findViewById(R.id.radiogroup1);
+        radioButton1 = (RadioButton) v.findViewById(R.id.lowToHigh);
+        radioButton2 = (RadioButton) v.findViewById(R.id.highToLow);
+
         spinner1 = (Spinner) v.findViewById(R.id.spinner1);
         //spinner2 = (Spinner) v.findViewById(R.id.spinner2);
         button = (Button) v.findViewById(R.id.button1);
@@ -64,12 +75,12 @@ public class SortBy extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                int selected = spinner1.getSelectedItemPosition();
+                /*int selected = spinner1.getSelectedItemPosition();
                 if (position == selected) {
                     spinner1.setBackgroundColor(Color.rgb(56,184,226));
                 } else {
                     spinner1.setBackgroundColor(Color.TRANSPARENT);
-                }
+                }*/
                 // On selecting a spinner item
                 String day1 = noOfDays[position];
                 if(day1.matches("[0-9]+"))
@@ -80,7 +91,25 @@ public class SortBy extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
+        radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                radioButton1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rent = 1;
+                    }
+                });
+
+                radioButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rent = 2;
+                    }
+                });
             }
         });
 
@@ -96,9 +125,11 @@ public class SortBy extends Fragment {
                 Date todate1 = cal.getTime();
                 String fromdate = dateFormat.format(todate1);
                 Toast.makeText(getActivity(), fromdate, Toast.LENGTH_SHORT).show();
+
                 SearchPG searchPG = new SearchPG();
                 Bundle bundle = new Bundle();
                 bundle.putString("fromdate", fromdate);
+                bundle.putInt("rent", rent);
                 searchPG.setArguments(bundle);
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = manager.beginTransaction();
