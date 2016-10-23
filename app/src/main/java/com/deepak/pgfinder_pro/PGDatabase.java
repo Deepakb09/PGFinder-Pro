@@ -83,6 +83,43 @@ public class PGDatabase {
         return pgDetailsArrayList;
     }
 
+    public ArrayList<PGDetails> querySortedPGDetails(String fromdate){
+        String date = fromdate.trim();
+        int id = 1;
+        ArrayList<PGDetails> pgDetailsArrayList = new ArrayList<PGDetails>();
+        Cursor cursor = sqLiteDatabase.query("pgdetails", null, "dateofposting = ?", new String[]{date}, null, null, null, null);
+        if(cursor.moveToNext() == true) {
+            id = cursor.getInt(0);
+        }
+        cursor = sqLiteDatabase.query("pgdetails", null, "_id >= ?", new String[]{""+id}, null, null, null, null);
+        while(cursor.moveToNext() == true) {
+            pgDetails = new PGDetails(cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                    cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
+                    cursor.getString(10), cursor.getString(11), cursor.getBlob(12), cursor.getBlob(13),
+                    cursor.getString(14), cursor.getString(15));
+            //advertisername, pgname, contact, city, area, rent, negotiable2, gender2, food2, desc,
+            //dateofposting, sample1, sample2, latitude, longitude
+            pgDetails.setAdvertisername(cursor.getString(1));
+            pgDetails.setPgname(cursor.getString(2));
+            pgDetails.setContact(cursor.getString(3));
+            pgDetails.setPgcity(cursor.getString(4));
+            pgDetails.setPgarea(cursor.getString(5));
+            pgDetails.setPgrent(cursor.getString(6));
+            pgDetails.setNegotiable(cursor.getString(7));
+            pgDetails.setGender(cursor.getString(8));
+            pgDetails.setTypeoffood(cursor.getString(9));
+            pgDetails.setMoredetails(cursor.getString(14));
+            pgDetails.setDateofposting(cursor.getString(11));
+            pgDetails.setImage1(cursor.getBlob(12));
+            pgDetails.setImage2(cursor.getBlob(13));
+            pgDetails.setLatitude(cursor.getString(14));
+            pgDetails.setLongitude(cursor.getString(15));
+            pgDetailsArrayList.add(pgDetails);
+        }
+
+        return pgDetailsArrayList;
+    }
+
     public void close(){
         sqLiteDatabase.close();
     }
@@ -94,7 +131,7 @@ public class PGDatabase {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("create table pgdetails(_id integer primary key, advertisername text, pgname text, contact text, pgcity text, pgarea text, pgrent text, negotiable text, gender text, typeoffood text, moredetails text, dateofposting date, image1 blob, image2 blob, latitude text, longitude text);");
+            db.execSQL("create table pgdetails(_id integer primary key, advertisername text, pgname text, contact text, pgcity text, pgarea text, pgrent text, negotiable text, gender text, typeoffood text, moredetails text, dateofposting string, image1 blob, image2 blob, latitude text, longitude text);");
         }
 
         @Override

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,7 +23,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 
@@ -38,11 +36,12 @@ public class OwnerFragment extends Fragment implements TextWatcher {
 
     String latitude = null, longitude = null;
     //GPSTracker gps;
+    int i;
 
     String[] city = {"Attibele","Bommanahalli","BTM","Banaswadi","Banashankri","Hoskote","Hosur","Bommasandra","Begur",
             "Electronic City","SilkBoard","Bellandur","Marathalli","CV Raman Nagar","Tin Factory"};
 
-    ArrayAdapter<String> arrayAdapter, arrayAdapter2;
+    ArrayAdapter<String> arrayAdapter;
 
     RadioGroup radioGroup1, radioGroup2, radioGroup3;
     RadioButton radioButton1, radioButton2, radioButton3, radioButton4, radioButton5, radioButton6;
@@ -79,13 +78,6 @@ public class OwnerFragment extends Fragment implements TextWatcher {
         editText5 = (EditText) v.findViewById(R.id.editText5);
         editText6 = (EditText) v.findViewById(R.id.editText6);
 
-        /*editText1.addTextChangedListener(this);
-        String text1 = editText1.getText().toString();
-        if(text1.matches("\\d+")){
-            Animation shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shake);
-            editText1.startAnimation(shake);
-        }*/
-
         textView1 = (TextView) v.findViewById(R.id.textView1);
         textView3 = (TextView) v.findViewById(R.id.textView3);
         button1 = (Button) v.findViewById(R.id.button1);
@@ -105,13 +97,33 @@ public class OwnerFragment extends Fragment implements TextWatcher {
         radioButton5 = (RadioButton) v.findViewById(R.id.gmale);
         radioButton6 = (RadioButton) v.findViewById(R.id.gfemale);
 
-        arrayAdapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, city);
+        arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinnerrow, city);
         autoCompleteTextView = (AutoCompleteTextView) v.findViewById(R.id.autoCompleteTextView1);
-        autoCompleteTextView.setAdapter(arrayAdapter2);
+        autoCompleteTextView.setAdapter(arrayAdapter);
 
-        //pgDetailsArrayList = new ArrayList<PGDetails>();
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editText3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                i = editText3.getText().toString().length();
+                if(i<9 || i>12) {
+                    editText3.setError("Enter 10 Digit Mobile No.");
+                }
+                else
+                    editText3.setError(null);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         radioGroup1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -175,33 +187,6 @@ public class OwnerFragment extends Fragment implements TextWatcher {
 
         dbu = new DbBitmapUtility();
 
-       /* button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // create class object
-                gps = new GPSTracker(getActivity());
-
-                // check if GPS enabled
-                if(gps.canGetLocation()){
-
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
-
-                    // \n is for new line
-                    if(latitude == 0.0 || longitude == 0.0){
-                        Toast.makeText(getActivity(), "Getting Location!! Please try again", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                        Toast.makeText(getActivity(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-                }else{
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert();
-                }
-            }
-        });
-*/
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,7 +223,8 @@ public class OwnerFragment extends Fragment implements TextWatcher {
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int date = calendar.get(Calendar.DATE);
-                String dateOP = ""+month+"/"+date+"/"+year;
+                String dateOP = ""+(month+1)+"/"+date+"/"+year;
+                Toast.makeText(getActivity(), dateOP, Toast.LENGTH_SHORT).show();
 
                 String advertisername = editText1.getText().toString();
                 String pgname = editText2.getText().toString();
@@ -353,20 +339,4 @@ public class OwnerFragment extends Fragment implements TextWatcher {
     public void afterTextChanged(Editable s) {
 
     }
-
-    public class DbBitmapUtility {
-
-        // convert from bitmap to byte array
-        public byte[] getBytes(Bitmap bitmap) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-            return stream.toByteArray();
-        }
-
-        // convert from byte array to bitmap
-        public Bitmap getImage(byte[] image) {
-            return BitmapFactory.decodeByteArray(image, 0, image.length);
-        }
-    }
-
 }

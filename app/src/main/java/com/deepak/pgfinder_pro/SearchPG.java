@@ -3,18 +3,19 @@ package com.deepak.pgfinder_pro;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
@@ -23,6 +24,8 @@ import java.util.ArrayList;
  */
 public class SearchPG extends Fragment {
     ListView listView1;
+    Button filter, sort;
+
     Cursor cursor;
     //SimpleCursorAdapter simpleCursorAdapter;
     PGDatabase pgDatabase;
@@ -44,15 +47,47 @@ public class SearchPG extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search_pg, container, false);
+
+        filter = (Button) view.findViewById(R.id.filter);
+        sort = (Button) view.findViewById(R.id.sort);
         listView1 = (ListView) view.findViewById(R.id.listView1);
-        myAdapter = new MyAdapter();
 
-        pgDatabase = new PGDatabase(getActivity());
-        pgDatabase.open();
+        //Bundle bundle = null;
+        Bundle bundle = getArguments();
+        if(bundle == null) {
+            myAdapter = new MyAdapter();
 
-        pgDetailsArrayList = pgDatabase.queryPGDetails();
+            pgDatabase = new PGDatabase(getActivity());
+            pgDatabase.open();
 
-        listView1.setAdapter(myAdapter);
+            pgDetailsArrayList = pgDatabase.queryPGDetails();
+
+            listView1.setAdapter(myAdapter);
+        }
+        else{
+            String fromdate = bundle.getString("fromdate");
+            myAdapter = new MyAdapter();
+
+            pgDatabase = new PGDatabase(getActivity());
+            pgDatabase.open();
+
+            pgDetailsArrayList = pgDatabase.querySortedPGDetails(fromdate);
+            //pgDetailsArrayList = pgDatabase.queryPGDetails();
+            listView1.setAdapter(myAdapter);
+        }
+
+        sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                SortBy sortBy = new SortBy();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = manager.beginTransaction();
+                fragmentTransaction.replace(R.id.container1, sortBy);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         return view;
     }
@@ -107,21 +142,6 @@ public class SearchPG extends Fragment {
             //Toast.makeText(getActivity(), "Lat : "+pgDetails.getLatitude()+"\nLon :"+pgDetails.getLongitude(), Toast.LENGTH_SHORT).show();
 
             return view;
-        }
-    }
-
-    public class DbBitmapUtility {
-
-        // convert from bitmap to byte array
-        public byte[] getBytes(Bitmap bitmap) {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-            return stream.toByteArray();
-        }
-
-        // convert from byte array to bitmap
-        public Bitmap getImage(byte[] image) {
-            return BitmapFactory.decodeByteArray(image, 0, image.length);
         }
     }
 }

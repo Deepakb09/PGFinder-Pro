@@ -27,14 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText1"
-            android:hint="Advertiser Name"
+            android:hint="Advertiser Name*"
             android:textSize="22sp"
             android:layout_marginBottom="15sp" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText2"
-            android:hint="PG Name"
+            android:hint="PG Name*"
             android:textSize="22sp"
             android:layout_marginBottom="15sp" />
 
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText3"
-            android:hint="Mobile No"
+            android:hint="Mobile No*"
             android:inputType="number"
             android:layout_marginBottom="15sp"
             android:textSize="22sp" />
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/autoCompleteTextView1"
             android:layout_marginBottom="15sp"
-            android:hint="City"/>
+            android:hint="City*"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editText5"
-            android:hint="Rent"
+            android:hint="Rent*"
             android:textSize="22sp"
             android:inputType="number"/>
 
@@ -206,8 +206,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/button3"
-            android:text="SUBMIT"
-            android:textColor="#FFF"
+            android:text="@string/submit"
+            android:textColor="#F00"
             android:background="#66009688"/>
 
 
